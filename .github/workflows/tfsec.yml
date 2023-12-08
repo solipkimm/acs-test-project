@@ -6,7 +6,7 @@ on:
     paths: 
     - staging/**
   pull_request:
-    branches: [ "prod" ]
+    branches: [ "prod", "staging" ]
     paths: 
     - staging/**
 

@@ -34,7 +34,6 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
-
 resource "aws_security_group" "web-sg" {
   name = "${random_pet.sg.id}-sg"
   description = "Ingress on port 8000"

@@ -2,16 +2,12 @@ name: tfsec
 
 on:
   push:
-    branches: [ "dev", "staging"]
-    paths: 
-    - staging/**
+    branches: [ "staging", "dev" ]
   pull_request:
     branches: [ "prod", "staging" ]
-    paths: 
-    - staging/**
 
 jobs:
-  tfsec_tflint_staging:
+  tfsec_tflint:
     name: Run tfsec sarif report
     runs-on: ubuntu-latest
     permissions:
@@ -20,24 +16,22 @@ jobs:
       security-events: write
 
     steps:
-      - name: Clone repo
+      - name: Checkout repo
         uses: actions/checkout@v3
       
-      - uses: terraform-linters/setup-tflint@v2
-        name: Setup TFLint
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v2
         with:
-           tflint_version: v0.38.1
-           
-      - name: Show version
+          tflint_version: v0.38.1
+        
+      - name: Show TFLint version
         run: tflint --version
 
       - name: Init TFLint
         run: tflint --init
-        working-directory: ./staging
 
       - name: Run TFLint
         run: tflint -f compact
-        working-directory: ./staging
 
       - name: Run tfsec
         uses: aquasecurity/tfsec-sarif-action@9a83b5c3524f825c020e356335855741fd02745f
@@ -47,5 +41,4 @@ jobs:
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v2
         with:
-          # Path to SARIF file relative to the root of the repository
           sarif_file: tfsec.sarif

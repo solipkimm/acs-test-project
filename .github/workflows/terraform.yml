@@ -160,7 +160,7 @@ jobs:
       
       - name: Terraform Show
         id: show
-        run: terraform show -no-color tf.plan 2>&1 > /tmp/planweb.txt
+        run: terraform show -no-color tfweb.plan 2>&1 > /tmp/planweb.txt
         working-directory: ./Prod/Webserver
           
       - uses: actions/github-script@v6
